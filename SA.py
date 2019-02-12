@@ -30,3 +30,35 @@ crt_cost = _func(crt_x1, crt_x2)   # Current Cost
 best_x1 = crt_x1
 best_x2 = crt_x2
 best_cost = crt_cost
+
+while(T > T_final):
+    for i in range(50):
+        new_x1 = _rand(crt_x1)           # X1 yang baru (digeser dari current X1)
+        new_x2 = _rand(crt_x2)           # X2 yang baru (digeser dari current X2)
+        new_cost = _func(new_x1, new_x2) # Cost yang baru
+        if new_cost < crt_cost:
+            # Current State <- New State
+            crt_x1 = new_x1
+            crt_x2 = new_x2
+            crt_cost = new_cost
+            
+            # Best-so-far <- New State
+            best_x1 = new_x1
+            best_x2 = new_x2
+            best_cost = new_cost
+            
+            # T optimum <- T
+            best_T = T
+        else:
+            apt = _prob_acc(new_cost, crt_cost, T) # Menghitung nilai Probabilitas
+            rand = np.random.uniform(0,1)          # random bilangan real antara 0 sampai 1
+            if apt > rand:
+                # Current State <- New State
+                crt_x1 = new_x1
+                crt_x2 = new_x2
+                crt_cost = new_cost
+    T*=CR
+print("Best T = ",best_T)       # T Optimum
+print("Best X1 = ",best_x1)     # X1 Terbaik
+print("Best X2 = ",best_x2)     # X2 Terbaik
+print("Best Cost = ",best_cost) # Cost terbaik
